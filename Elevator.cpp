@@ -31,6 +31,67 @@ void printList(vector<string> input)
         cout << floor << " ";
     }
 }
+void updateList()
+{
+
+    if (sequence.begin() == sequence.end())
+    {
+        currentFloor = "";
+    }
+    else
+    {
+        if (up)
+        {
+            auto index = find(sequence.begin(), sequence.end(), currentFloor);
+            rotate(sequence.begin(), index, sequence.end());
+
+            
+            if(sequence.size() != 1){
+                if(sequence[1] < currentFloor){
+                    up = false;
+                    currentFloor = sequence.back();
+
+                }
+                else{
+                    currentFloor = sequence[1];
+                }
+                sequence.erase(sequence.begin());
+            }
+            else{
+                currentFloor = "";
+                sequence.clear();
+            }
+        }
+        else
+        {
+            auto index = find(sequence.begin(), sequence.end(), currentFloor);
+
+            reverse(sequence.begin(), index);
+
+            if(sequence.size() != 1){
+
+                if(sequence[1] < currentFloor){
+                    currentFloor = sequence[1];
+
+                }
+                else{
+                    up = true;
+                    currentFloor = sequence[1];
+                }
+
+                sequence.erase(sequence.begin());
+
+            }
+            else{
+                currentFloor = "";
+                sequence.clear();
+            }
+        }
+
+    
+        
+    }
+}
 
 void sortList(vector<string> input){
     bool sort = true;
@@ -79,11 +140,11 @@ void sortList(vector<string> input){
 
     sequence = input;
 
-    // update boolean variable up before updating list! find current floor in list and then check next num, if it follows direction, no change if not then change bool
-     auto search = lower_bound(sequence.begin(), sequence.end(), currentFloor);
-     int index = distance(sequence.begin(), search);
-
-    //if next index is lower or empty then switch bool if up
+    auto search = lower_bound(sequence.begin(), sequence.end(), currentFloor);
+    int index = distance(sequence.begin(), search);
+    
+    // need to handle when current floor isnt avaliable in list
+    
     if(up){
         if(sequence.size() == index){
             up = false;
@@ -97,49 +158,6 @@ void sortList(vector<string> input){
     updateList();
 }
 
-void updateList()
-{
-
-    if (sequence.begin() == sequence.end())
-    {
-        currentFloor = "";
-    }
-    else
-    {
-        if (up)
-        {
-            auto index = find(sequence.begin(), sequence.end(), currentFloor);
-            rotate(sequence.begin(), index, sequence.end());
-
-            
-            
-            if(sequence.size() != 1){
-                if(sequence[1] < currentFloor){
-                    up = false;
-                    currentFloor = sequence.back();
-
-                }
-                else{
-                    currentFloor = sequence[1];
-                }
-                sequence.erase(sequence.begin());
-            }
-            else{
-                currentFloor = "";
-                sequence.clear();
-            }
-        }
-        else
-        {
-            auto index = find(sequence.begin(), sequence.end(), currentFloor);
-            reverse(sequence.begin(), index);
-
-        }
-
-    
-        
-    }
-}
 
 int main()
 {
@@ -163,8 +181,7 @@ int main()
     
     
 
-    cout << '\n'
-         << "Now enter an elevator sequence or enter the next floor (with spaces in between each floor):";
+    cout << '\n' << "Now enter an elevator sequence or enter the next floor (with spaces in between each floor):";
     string input;
     getline(cin >> ws, input);
     convertList(input);
@@ -184,7 +201,8 @@ int main()
         
         cout << '\n'
              << "Please enter the next floor: ";
-        getline(cin >> ws, input);
+
+        getline(cin >> ws, input); // fix getline to handle empty input
 
         switch (input[0])
         {
@@ -212,6 +230,7 @@ int main()
         default:
             if (input == "")
             {
+
             }
             else
             {
