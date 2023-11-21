@@ -85,7 +85,14 @@ void sortList(vector<string> input){
 
     //if next index is lower or empty then switch bool if up
     if(up){
-        
+        if(sequence.size() == index){
+            up = false;
+        }
+    }
+    else{
+        if(index == 0){
+            up = true;
+        }
     }
     updateList();
 }
@@ -161,10 +168,14 @@ int main()
     string input;
     getline(cin >> ws, input);
     convertList(input);
+    if(sequence[0] > currentFloor){
+        up = true;
+    }
+    else{
+        up = false;
+    }
     sequence.push_back(currentFloor);
     printList(sequence);
-
-    // fix starting up
 
 
 
