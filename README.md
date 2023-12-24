@@ -1,4 +1,4 @@
-# Elevator Simulator
+# Elevator Simulator - IN PROGRESS
 
 To execute, please run Elevator.cpp and enter in the asked parameters
 
