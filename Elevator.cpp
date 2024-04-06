@@ -203,6 +203,8 @@ int main()
              << "Please enter the next floor: ";
 
         getline(cin >> ws, input); // fix getline to handle empty input
+        
+
 
         switch (input[0])
         {
